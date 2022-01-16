@@ -1,6 +1,6 @@
 import React from 'react'
 import { FaGoogle, FaTimes } from 'react-icons/fa'
-import { useContext } from 'react/cjs/react.development'
+import { useContext } from 'react'
 import {SignInWithPopupContext} from '../App'
 import FirebaseContext from './firebase/FirebaseContext'
 const SignInPopup = () => {
@@ -13,7 +13,7 @@ const SignInPopup = () => {
         showSingInWithPopup && !loggedIn ?
         <div className='sign-in-popup-whole-window'>
             <div className='sign-in-popup-outer-box'>
-                <FaTimes style={{position: 'absolute', right: '1rem', top: '0.8rem', cursor:'pointer', fontSize:'1.2rem'}} onClick={closeHandler}/>
+                <FaTimes style={{position: 'absolute', right: '1rem', top: '0.8rem', cursor:'pointer', fontSize:'1.2rem', color: 'tomato'}} onClick={closeHandler}/>
                 <div className='sign-in-popup-inner-div' onClick={() => firebase.doSignIn.bind(firebase)()}>
                     {/* <div> */}
                         <FaGoogle />

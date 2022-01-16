@@ -1,7 +1,7 @@
 import React from 'react'
 import Post from './Post'
 import InfiniteScroll from 'react-infinite-scroll-component'
-const ContenttList = ({ postList, pushFrontChildren, loggedIn, fetchMore, isEnd }) => {
+const ContenttList = ({ postList, pushFrontChildren, loggedIn, fetchMore, isEnd, isEditSection }) => {
     return (
         <div className='content-show-list'>
             <InfiniteScroll dataLength={postList.length} 
@@ -17,7 +17,7 @@ const ContenttList = ({ postList, pushFrontChildren, loggedIn, fetchMore, isEnd 
                     </div>
                 }>
                 {pushFrontChildren}
-                {postList.map(val => (<Post postInfo={val} loggedIn={loggedIn} key={val.photoLink} />))}
+                {postList.map(val => (<Post postInfo={val} loggedIn={loggedIn} key={val.photoLink} isEditSection = {isEditSection} />))}
             </InfiniteScroll>
         </div>
 

@@ -9,18 +9,17 @@ import FirebaseContext from './components/firebase/FirebaseContext';
 import { addDoc, collection, setDoc, doc, Timestamp, getDoc } from 'firebase/firestore'
 import SignInPopup from './components/SignInPopup';
 import { createContext } from 'react/cjs/react.development';
-import NotifsList from './components/Notifs';
-import theme from './theme'
-import { ThemeProvider } from 'styled-components';
+import CreatePost from './components/CreatePost';
 export const SignInWithPopupContext = createContext(null);
-export const ShowNotifsContext = createContext(null);
-
+export const QueryContext = createContext(null);
 function App() {
   const [firebase, setFirebase] = useState(new Firebase());
   const [loggedIn, setLoggedIn] = useState(firebase.auth.currentUser ? true : false);
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [showSingInWithPopup, setSignInWithPopUp] = useState(false);
   const [showNotif, setShowNotif] = useState(false);
+  const [queryType, setQueryType] = useState({ location: 'posts', limit: 2, isTagged: false, tag: null });
+
   useEffect(() => {
     const unsubscribe = firebase.auth.onAuthStateChanged((result) => {
       console.log('signed state changed', result);
@@ -51,19 +50,17 @@ function App() {
   return (
     <FirebaseContext.Provider value={{ firebase, setFirebase, loggedIn, setLoggedIn, isLoadingData }}>
       <Router>
-        <ThemeProvider theme={theme}>
           <SignInWithPopupContext.Provider value={{ showSingInWithPopup, setSignInWithPopUp }}>
-            <ShowNotifsContext.Provider value={{ showNotif, setShowNotif }}>
-              <Navbar />
-              <SignInPopup />
-              <NotifsList />
+            <Navbar />
+            <SignInPopup />
+            <QueryContext.Provider value={{ queryType, setQueryType }}>
               <Routes>
                 <Route exact path='/' element={<Home />} />
-                <Route exact path='/edit' element={<EditSection />} />
+                <Route exact path='/your-profile' element={<EditSection />} />
+                <Route exact path='/create-post' element={<CreatePost />} />
               </Routes>
-            </ShowNotifsContext.Provider>
+            </QueryContext.Provider>
           </SignInWithPopupContext.Provider>
-        </ThemeProvider>
       </Router>
     </FirebaseContext.Provider>
   );
