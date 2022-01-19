@@ -37,7 +37,7 @@ const Navbar = () => {
 
                     <div alt="logo" className='navbar-item app-logo'>
                         <Link to='/' className='text-link'>
-                            <FaReddit size={"40px"} />
+                            <FaReddit size={"40px"} style={{color: "tomato"}} />
                         </Link>
                     </div>
                     <div className='auth-container navbar-item'>

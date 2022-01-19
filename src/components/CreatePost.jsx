@@ -5,6 +5,8 @@ import { FaCross, FaGoogle, FaPlus, FaTrash } from "react-icons/fa";
 import { usePostUpload } from "./hooks/usePostUpload";
 import { useRef, useState } from "react/cjs/react.development";
 import { useNavigate } from "react-router-dom";
+import SVGLoader from './SVGLoader'
+
 const CreatePost = () => {
     const { firebase, setFirebase, loggedIn } = useContext(FirebaseContext);
     const { register, handleSubmit, formState: { errors } } = useForm({ mode: "onBlur" });
@@ -100,7 +102,8 @@ const CreatePost = () => {
         <div className="home-page">
             {   isUploading &&
                 <div className="sign-in-popup-whole-window">
-                    <h3 style={{ color: "white" }}>Posting...</h3>
+                    {/* <h3 style={{ color: "white" }}>Posting...</h3> */}
+                    <SVGLoader />
                 </div>
             }
             {
@@ -123,7 +126,7 @@ const CreatePost = () => {
                                 <input type="text" value={formData['post_title']} ref={postTitleRef} name="post-title" placeholder="Post Title" onChange={(e) => handleTitleChange(e, 'post_title')} className="post-titles post-main-title" maxLength={150} />
                                 <input type="text" value={formData['alt_title']} ref={postAltTitleRef} name="alt-title" placeholder="Alt Title" onChange={(e) => handleTitleChange(e, 'alt_title')} className="post-titles post-alt-title" maxLength={200} />
                                 <div className="add-tag-container">
-                                    <input type="text" value={currentTag} ref={addTagRef} name="add-tag" placeholder="Tag Name" onChange={handleTagChange} className="post-tag" maxLength={25} />
+                                    <input type="text" value={currentTag} ref={addTagRef} name="add-tag" placeholder="Tag Name" onChange={handleTagChange} className="post-tag" maxLength={25} onKeyPress={(e) => {e.key === "Enter" && handleAddTag(e)}} />
                                     <div className="add-tag-btn" onClick={handleAddTag}>Add</div>
                                 </div>
                                 <div className="tags-list">

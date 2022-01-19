@@ -8,7 +8,8 @@ export const usePostUpload = (firebase, loggedIn, onUpload) => {
 
     const uploadPost = (data) => {
         setIsUploading(true);
-        const imageRef = ref(firebase.storage, `images/${firebase.uid}/${Date.now()}`);
+        const ctime = Date.now();
+        const imageRef = ref(firebase.storage, `images/${firebase.uid}/${ctime}`);
         uploadBytes(imageRef, data['image_file'])
             .then(snapshot => {
                 console.log("file uploaded", snapshot);
@@ -18,7 +19,7 @@ export const usePostUpload = (firebase, loggedIn, onUpload) => {
                 console.log(downloadURL);
                 const updatePost = async (transaction) => {
                     // const batch = writeBatch(firebase.firestore);
-                    const assignedID = `${firebase.uid}-${Date.now()}`
+                    const assignedID = `${firebase.uid}-${ctime}`
                     const notExistsTags = [];
                     for (let tag of data['tags']) {
                         const tagDoc = await transaction.get(doc(firebase.firestore, 'tags', tag));
@@ -34,6 +35,7 @@ export const usePostUpload = (firebase, loggedIn, onUpload) => {
                         lastEdited: Timestamp.now(),
                         postedBy: firebase.displayName,
                         tags: data['tags'],
+                        store_id: ctime,
                         // likeCount: collection(firebase.firestore, 'posts', `${firebase.uid}-${Date.now()}`, 'xmas')
                     })
                     transaction.set(doc(firebase.firestore, 'likes', assignedID), {

@@ -1,16 +1,15 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { FaHeart } from 'react-icons/fa'
+import { FaHeart, FaTrash } from 'react-icons/fa'
 import { collection, doc, getDoc, getDocs, Timestamp, FieldValue, query, where, setDoc, updateDoc, UpdateData, increment, runTransaction, writeBatch } from 'firebase/firestore'
 import FirebaseContext from './firebase/FirebaseContext'
 import { SignInWithPopupContext, fetchPostsLikedByUser } from '../App'
 import { QueryContext } from '../App'
-const Post = ({ postInfo, isEditSection }) => {
+const Post = ({ postInfo, isEditSection, deletePost }) => {
     const { firebase, setFirebase, loggedIn, isLoadingData } = useContext(FirebaseContext);
     const [isLiked, setIsLiked] = useState(false);
     const [likes, setLikes] = useState(0);
     const { showSingInWithPopup, setSignInWithPopUp } = useContext(SignInWithPopupContext);
     const {queryType, setQueryType} = useContext(QueryContext);
-    
     useEffect(() => {
         const getLikes = () => {
             const postLikeRef = doc(firebase.firestore, `likes/${postInfo.id}`);
@@ -81,7 +80,7 @@ const Post = ({ postInfo, isEditSection }) => {
                         <div className='post-meta-data'>
                             <div className='post-meta-icon-container' style={{ color: isLiked ? 'tomato' : 'white' }} onClick={handleLikeClicked}><FaHeart className='post-meta-icons' title='Like' /><p style={{ marginLeft: '0.2rem' }}>{`${likes}`}</p></div>
                             {/* <div className='post-meta-icon-container'><FaThumbsDown className='post-meta-icons' title='Dislike'/><p>{`${postInfo.downVotes}`}</p></div> */}
-                            {/* {isEditSection && loggedIn && <div className='post-meta-icon-container'><FaTrash className='post-meta-icons' title='RemovePost' /><p>{`Remove`}</p></div>} */}
+                            {isEditSection && loggedIn && <div className='post-meta-icon-container' style={{ color: 'white' }} onClick={() => deletePost(postInfo.store_id, postInfo.id , postInfo.tags)}><FaTrash className='post-meta-icons' title='RemovePost' /></div>}
                             {postInfo.tags.map(tg => {
                                 return <li className='hash-tag' key={tg} onClick={() => setQueryType({...queryType, isTagged: true, tag: tg})}>{`#${tg}`}</li>
                             })}
