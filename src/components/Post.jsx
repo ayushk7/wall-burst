@@ -84,7 +84,7 @@ const Post = ({ postInfo, isEditSection, deletePost }) => {
                             {postInfo.tags.map(tg => {
                                 return <li className='hash-tag' key={tg} onClick={() => setQueryType({...queryType, isTagged: true, tag: tg})}>{`#${tg}`}</li>
                             })}
-                            <div className='post-user-info'><p>{`Posted by ${postInfo.postedBy} on ${postInfo.lastEdited.toDate().toLocaleTimeString('hi')}`}</p></div>
+                            <div className='post-user-info'><p>{`Posted by ${postInfo.postedBy} on ${postInfo.lastEdited.toDate().toLocaleDateString('hi')}`}</p></div>
                         </div>
                     </div>
                 </div>

@@ -10,15 +10,18 @@ import { addDoc, collection, setDoc, doc, Timestamp, getDoc } from 'firebase/fir
 import SignInPopup from './components/SignInPopup';
 import { createContext } from 'react/cjs/react.development';
 import CreatePost from './components/CreatePost';
+import { searchQueryAtom, signInPoputAtom } from './components/atom';
+import { useAtom } from 'jotai';
 export const SignInWithPopupContext = createContext(null);
 export const QueryContext = createContext(null);
 function App() {
   const [firebase, setFirebase] = useState(new Firebase());
   const [loggedIn, setLoggedIn] = useState(firebase.auth.currentUser ? true : false);
   const [isLoadingData, setIsLoadingData] = useState(false);
-  const [showSingInWithPopup, setSignInWithPopUp] = useState(false);
+  const [showSingInWithPopup, setSignInWithPopUp] = useAtom(signInPoputAtom);
   const [showNotif, setShowNotif] = useState(false);
-  const [queryType, setQueryType] = useState({ location: 'posts', limit: 2, isTagged: false, tag: null });
+  // const [queryType, setQueryType] = useState({ location: 'posts', limit: 2, isTagged: false, tag: null });
+  const [queryType, setQueryType] = useAtom(searchQueryAtom);
 
   useEffect(() => {
     const unsubscribe = firebase.auth.onAuthStateChanged((result) => {
