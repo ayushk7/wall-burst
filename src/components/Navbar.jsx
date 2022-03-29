@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useRef, useState } from 'react'
-import { FaReddit, FaSearch, FaBell, FaUserCircle, FaEdit, FaPlus, FaHome } from 'react-icons/fa'
+import { FaWaveSquare, FaSearch, FaBell, FaUserCircle, FaEdit, FaPlus, FaHome } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import FirebaseContext from './firebase/FirebaseContext'
 import { SignInWithPopupContext } from '../App'
@@ -37,7 +37,8 @@ const Navbar = () => {
 
                     <div alt="logo" className='navbar-item app-logo'>
                         <Link to='/' className='text-link'>
-                            <FaReddit size={"40px"} style={{color: "tomato"}} />
+                            {/* <img src="logo-charmender.png" alt="app-logo"/> */}
+                            <FaWaveSquare size={"40px"} style={{color: "tomato"}} />
                         </Link>
                     </div>
                     <div className='auth-container navbar-item'>
